@@ -15,10 +15,50 @@
 # create a neural network to predict connect 4
 
 import torch
+device = (
+    "cuda"
+    if torch.cuda.is_available()
+    else "mps"
+    if torch.backends.mps.is_available()
+    else "cpu"
+)
+print(f"Using {device} device")
 
 class Network(torch.nn.module):
     def __init__(self):
         self.conv1 = torch.nn.Conv2d(in_channels=1, out_channels=64, kernel_size=(5,5), padding="same")
+        self.pool1 = torch.nn.MaxPool2d(kernel_size=3),
         self.relu1 = torch.nn.ReLU(inplace=True)
-        self.conv2 = torch.nn.Conv2d(in_channels=64, out_channels=64, kernel_size=(5,5), padding="same")
+        self.conv2 = torch.nn.Conv2d(in_channels=64, out_channels=64, kernel_size=(7,7), padding="same")
+        self.pool2 = torch.nn.MaxPool2d(kernel_size=5),
         self.relu2 = torch.nn.ReLU(inplace=True)
+        self.conv3 = torch.nn.Conv2d(in_channels=64, out_channels=1, kernel_size=(3,3), padding="same")
+        self.pool3 = torch.nn.MaxPool2d(kernel_size=7)
+        self.relu3 = torch.nn.ReLU(inplace=True)
+        self.linear1 = torch.nn.Linear(6*7, 64)
+        self.relu4 = torch.nn.ReLU(inplace=True)
+        self.dropout = torch.nn.Dropout(p=0.1)
+        self.linear2 = torch.nn.Linear(64, 7)
+        self.relu5 = torch.nn.ReLU(inplace=True)
+
+    def forward(self, x):
+        x = self.conv1(x)
+        x = self.pool1(x)
+        x = self.relu1(x)
+        x = self.conv2(x)
+        x = self.pool2(x)
+        x = self.relu2(x)
+        x = self.conv3(x)
+        x = self.pool3(x)
+        x = self.relu3(x)
+        x = self.linear1(x)
+        x = self.relu4(x)
+        x = self.dropout(x)
+        x = self.linear2(x)
+        x = self.relu5(x)
+        return x
+
+
+
+
+    
