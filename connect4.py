@@ -165,15 +165,15 @@ while not end:
 
     grid = playTurn(grid, col, 1)
 
-    #grid = train(grid, loss_fn, optimizer)
-    lowest_loss = 100
-    finalpred = 1
-    for pred in range(7):
-        pred = pred + 1
-        loss = evaluateGrid(playTurn(grid, pred, -1), -1)
-        print(loss, pred)
-        if loss < lowest_loss:
-            print(pred)
-            finalpred = pred
-            lowest_loss = loss
-    grid = playTurn(grid, finalpred, -1)
+    grid = train(grid, loss_fn, optimizer)
+    #lowest_loss = 100
+    #finalpred = 1
+    #for pred in range(7):
+    #    pred = pred + 1
+    #    loss = evaluateGrid(playTurn(grid, pred, -1), -1)
+     #   print(loss, pred)
+    #    if loss < lowest_loss:
+      #      print(pred)
+     #       finalpred = pred
+     #       lowest_loss = loss
+    #grid = playTurn(grid, finalpred, -1)
